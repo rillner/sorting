@@ -29,11 +29,11 @@ public class SortingTest
     @Test
     public void insertionSortReverseSuccess()
     {
-        Comparator< ? super Integer> usedComparator = (s1, s2) -> s1.compareTo(s2);
+        Comparator<Integer> usedComparator = (i1, i2) -> i1.compareTo(i2);
         List<Integer> input = Arrays.asList(new Integer(3), new Integer(2), new Integer(1), new Integer(0), new Integer(-1), new Integer(-2), new Integer(-3));
         Integer[] expected = new Integer[]{new Integer(-3), new Integer(-2), new Integer(-1), new Integer(0), new Integer(1), new Integer(2), new Integer(3)};
 
-        List<Integer> output = Sorting.insertionSort(input, usedComparator);
+        List<Integer> output = Sorting.insertionSort(usedComparator, input);
 
         assertThat(output, IsIterableContainingInOrder.contains(expected));
     }
@@ -42,11 +42,11 @@ public class SortingTest
     @Test
     public void insertionSortFewUniqueReverseSuccess()
     {
-        Comparator< ? super Integer> usedComparator = (s1, s2) -> s1.compareTo(s2);
+        Comparator<Integer> usedComparator = (i1, i2) -> i1.compareTo(i2);
         List<Integer> input = Arrays.asList(new Integer(3), new Integer(1), new Integer(1), new Integer(0), new Integer(-2), new Integer(-2), new Integer(-3));
         Integer[] expected = new Integer[]{new Integer(-3), new Integer(-2), new Integer(-2), new Integer(0), new Integer(1), new Integer(1), new Integer(3)};
 
-        List<Integer> output = Sorting.insertionSort(input, usedComparator);
+        List<Integer> output = Sorting.insertionSort(usedComparator, input);
 
         assertThat(output, IsIterableContainingInOrder.contains(expected));
     }
@@ -55,11 +55,11 @@ public class SortingTest
     @Test
     public void insertionSortSortedSuccess()
     {
-        Comparator< ? super Integer> usedComparator = (s1, s2) -> s1.compareTo(s2);
+        Comparator<Integer> usedComparator = (i1, i2) -> i1.compareTo(i2);
         List<Integer> input = Arrays.asList(new Integer(-3), new Integer(-2), new Integer(-1), new Integer(0), new Integer(1), new Integer(2), new Integer(3));
         Integer[] expected = new Integer[]{new Integer(-3), new Integer(-2), new Integer(-1), new Integer(0), new Integer(1), new Integer(2), new Integer(3)};
 
-        List<Integer> output = Sorting.insertionSort(input, usedComparator);
+        List<Integer> output = Sorting.insertionSort(usedComparator, input);
 
         assertThat(output, IsIterableContainingInOrder.contains(expected));
     }
@@ -68,25 +68,13 @@ public class SortingTest
     @Test
     public void insertionSortSortedFewUniqueSuccess()
     {
-        Comparator< ? super Integer> usedComparator = (s1, s2) -> s1.compareTo(s2);
+        Comparator<Integer> usedComparator = (i1, i2) -> i1.compareTo(i2);
         List<Integer> input = Arrays.asList(new Integer(-3), new Integer(-2), new Integer(-2), new Integer(0), new Integer(1), new Integer(1), new Integer(3));
         Integer[] expected = new Integer[]{new Integer(-3), new Integer(-2), new Integer(-2), new Integer(0), new Integer(1), new Integer(1), new Integer(3)};
 
-        List<Integer> output = Sorting.insertionSort(input, usedComparator);
+        List<Integer> output = Sorting.insertionSort(usedComparator, input);
 
         assertThat(output, IsIterableContainingInOrder.contains(expected));
-    }
-
-
-    @Test
-    public void insertionSortInputNull()
-    {
-        Comparator< ? super Integer> usedComparator = (s1, s2) -> s1.compareTo(s2);
-
-        exception.expect(NullPointerException.class);
-        exception.expectMessage(Matchers.equalTo("input must not be null."));
-
-        Sorting.insertionSort(null, usedComparator);
     }
 
 
@@ -98,17 +86,17 @@ public class SortingTest
         exception.expect(NullPointerException.class);
         exception.expectMessage(Matchers.equalTo("comparator must not be null."));
 
-        Sorting.insertionSort(input, null);
+        Sorting.insertionSort(null, input);
     }
 
 
     @Test
     public void insertionSortInputEmpty()
     {
-        Comparator< ? super Integer> usedComparator = (s1, s2) -> s1.compareTo(s2);
+        Comparator<Integer> usedComparator = (i1, i2) -> i1.compareTo(i2);
         List<Integer> input = Collections.emptyList();
 
-        List<Integer> output = Sorting.insertionSort(input, usedComparator);
+        List<Integer> output = Sorting.insertionSort(usedComparator, input);
 
         assertTrue(output.isEmpty());
     }
@@ -117,12 +105,67 @@ public class SortingTest
     @Test
     public void insertionSortOneInputElement()
     {
-        Comparator< ? super Integer> usedComparator = (s1, s2) -> s1.compareTo(s2);
+        Comparator<Integer> usedComparator = (i1, i2) -> i1.compareTo(i2);
         List<Integer> input = Arrays.asList(new Integer(3));
         Integer[] expected = new Integer[]{new Integer(3)};
 
-        List<Integer> output = Sorting.insertionSort(input, usedComparator);
+        List<Integer> output = Sorting.insertionSort(usedComparator, input);
 
         assertThat(output, IsIterableContainingInOrder.contains(expected));
+    }
+
+
+    @Test
+    public void insertionSortWithIllegalNullElement()
+    {
+        Comparator<Integer> usedComparator = (i1, i2) -> i1.compareTo(i2);
+        List<Integer> input = Arrays.asList(new Integer(3), new Integer(2), new Integer(1), null, new Integer(-1), new Integer(-2), new Integer(-3));
+
+        exception.expect(NullPointerException.class);
+
+        Sorting.insertionSort(usedComparator, input);
+    }
+
+
+    @Test
+    public void insertionSortWithLegalNullElements()
+    {
+        Comparator<Integer> usedComparator = integerComparatorPermittingNull();
+        List<Integer> input = Arrays.asList(new Integer(3), new Integer(2), new Integer(1), null, new Integer(-1), new Integer(-2), null);
+        Integer[] expected = new Integer[]{null, null, new Integer(-2), new Integer(-1), new Integer(1), new Integer(2), new Integer(3)};
+
+        List<Integer> output = Sorting.insertionSort(usedComparator, input);
+
+        assertThat(output, IsIterableContainingInOrder.contains(expected));
+
+        Sorting.insertionSort(usedComparator, input);
+    }
+
+
+    private Comparator<Integer> integerComparatorPermittingNull()
+    {
+        return (i1, i2) ->
+        {
+            int result;
+
+            if (i1 != null && i2 != null)
+            {
+                result = i1.compareTo(i2);
+            }
+            else if (i1 == null && i2 == null)
+            {
+                result = 0;
+            }
+            else if (i1 == null) // && i2 != null
+            {
+                result = -1;
+            }
+            else // i2 != null && i2 == null
+            {
+                result = 1;
+            }
+
+            return result;
+        };
     }
 }
