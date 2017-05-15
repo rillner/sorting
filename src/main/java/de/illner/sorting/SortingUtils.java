@@ -80,6 +80,85 @@ public final class SortingUtils
     }
 
 
+    /**
+     * One might conclude that selection sort should never be used. It does not adapt to the data in any way, so its runtime is always
+     * quadratic. However, selection sort has the property of minimizing the number of swaps. In applications where the cost of swapping
+     * items is high, selection sort very well may be the algorithm of choice.
+     *
+     * @param comparator the {@link Comparator} for comparing the elements of the <code>input</code> List
+     * @param input the input {@link List} to be sorted
+     * @return the sorted result {@link List} by using selection sort
+     * @throws NullPointerException if <code>input</code> or <code>comparator</code> argument is null, or if an element of the list is null
+     *             and the given comparator does not permit null arguments
+     */
+    public static <T> List<T> selectionSort(Comparator< ? super T> comparator, List<T> input) throws NullPointerException
+    {
+        checkParameters(comparator, input);
+
+        List<T> result = input.stream().collect(Collectors.toList());
+
+        if (result.size() > 1)
+        {
+            for (int i = 0; i < result.size(); i++)
+            {
+                int k = i;
+                for (int j = i + 1; j < result.size(); j++)
+                {
+                    if (comparator.compare(result.get(j), result.get(k)) < 0)
+                    {
+                        k = j;
+                    }
+                }
+                T tmp = result.get(i);
+                result.set(i, result.get(k));
+                result.set(k, tmp);
+            }
+        }
+
+        return result;
+    }
+
+
+    /**
+     * One might conclude that selection sort should never be used. It does not adapt to the data in any way, so its runtime is always
+     * quadratic. However, selection sort has the property of minimizing the number of swaps. In applications where the cost of swapping
+     * items is high, selection sort very well may be the algorithm of choice.
+     *
+     * @param comparator the {@link Comparator} for comparing the elements of the <code>input</code> List
+     * @param input the input array to be sorted
+     * @return the sorted result array by using selection sort
+     * @throws NullPointerException if <code>input</code> or <code>comparator</code> argument is null, or if an element of the array is null
+     *             and the given comparator does not permit null arguments
+     */
+    @SafeVarargs
+    public static <T> T[] selectionSort(Comparator< ? super T> comparator, T... input) throws NullPointerException
+    {
+        checkParameters(comparator, input);
+
+        T[] result = Arrays.copyOf(input, input.length);
+
+        if (result.length > 1)
+        {
+            for (int i = 0; i < result.length; i++)
+            {
+                int k = i;
+                for (int j = i + 1; j < result.length; j++)
+                {
+                    if (comparator.compare(result[j], result[k]) < 0)
+                    {
+                        k = j;
+                    }
+                }
+                T tmp = result[i];
+                result[i] = result[k];
+                result[k] = tmp;
+            }
+        }
+
+        return result;
+    }
+
+
     private static <T> void checkParameters(Comparator< ? super T> comparator, List<T> input)
     {
         Objects.requireNonNull(comparator, "comparator must not be null.");

@@ -17,7 +17,6 @@ public abstract class AbstractSortingTest
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
-
     protected final Comparator<Integer> integerComparator = (i1, i2) -> i1.compareTo(i2);
     protected final Comparator<Integer> integerComparatorPermittingNull = createComparatorPermittingNull();
 
