@@ -9,6 +9,10 @@
     <name>Sorting Utils</name>
     <description>Java util classes for sorting using different sorting algorithms</description>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <build>
 
         <!-- compiler -->
