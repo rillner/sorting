@@ -45,7 +45,7 @@ final class InsertionSort extends AbstractSortingAlgorithm implements ISorting
         {
             for (int k = i; k > 0 && comparator.compare(input[k], input[k - 1]) < 0; k--)
             {
-                swap(input, i, k - 1);
+                swap(input, k, k - 1);
             }
         }
     }

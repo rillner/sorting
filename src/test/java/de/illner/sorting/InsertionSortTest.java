@@ -11,7 +11,9 @@ import static org.junit.Assert.assertThat;
 
 import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsArrayContainingInOrder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import de.illner.sorting.SortingUtils.SortOrder;
 
@@ -19,12 +21,16 @@ import de.illner.sorting.SortingUtils.SortOrder;
 public class InsertionSortTest extends AbstractSortingTest
 {
 
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+    
+    
     @Test
     @Override
     public void sortListAscWith10000RdmInts()
     {
-        // TODO Auto-generated method stub
-
+        SortingUtils.insertionSort(tenThousandRdmIntList, SortOrder.ASCENDING);
+        SortingUtils.isSorted(tenThousandRdmIntList, SortOrder.ASCENDING);
     }
 
 

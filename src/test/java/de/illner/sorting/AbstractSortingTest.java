@@ -11,35 +11,26 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
+import org.junit.Before;
 
 
 public abstract class AbstractSortingTest
 {
 
-    @Rule
-    public static ExpectedException exception;
+    protected final Comparator<Integer> integerComparator = (i1, i2) -> i1.compareTo(i2);
+    protected final Comparator<Integer> integerComparatorPermittingNull = createComparatorPermittingNull();
 
-    protected static Comparator<Integer> integerComparator;
-    protected static Comparator<Integer> integerComparatorPermittingNull;
-
-    protected static List<Integer> tenThousandRdmIntList;
-    protected static Integer[] tenThousandRdmIntArray;
+    protected List<Integer> tenThousandRdmIntList = create10000RdmIntsList();
+    protected Integer[] tenThousandRdmIntArray = create10000RdmIntsArray();
 
 
-    @BeforeClass
-    public static void beforeClass()
+    @Before
+    public void beforeEachTestCase()
     {
-        exception = ExpectedException.none();
-        integerComparator = (i1, i2) -> i1.compareTo(i2);
-        integerComparatorPermittingNull = createComparatorPermittingNull();
         tenThousandRdmIntList = create10000RdmIntsList();
         tenThousandRdmIntArray = create10000RdmIntsArray();
     }
-
-
+    
     abstract public void sortListAscWith10000RdmInts();
 
 
