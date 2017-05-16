@@ -1,175 +1,206 @@
 package de.illner.sorting;
 
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 public final class SortingUtils
 {
 
+    // TODO: refactor javadoc: algorithm description, tell that sorting will be inplace
+    // TODO: extra package private implementation class per algorithm, call them out of this class
+    // TODO: check each method will be unit tested separately
+
     private SortingUtils()
     {}
 
 
-    /**
-     * Although it is one of the elementary sorting algorithms with <code>O(n<sup>2</sup>)</code> worst-case time, insertion sort is the
-     * algorithm of choice either when the data is nearly sorted (because it is adaptive) or when the problem size is small (because it has
-     * low overhead). For these reasons, and because it is also stable, insertion sort is often used as the recursive base case (when the
-     * problem size is small) for higher overhead divide-and-conquer sorting algorithms, such as merge sort or quick sort.
-     *
-     * @param comparator the {@link Comparator} for comparing the elements of the <code>input</code> List
-     * @param input the input {@link List} to be sorted
-     * @return the sorted result {@link List} by using insertion sort
-     * @throws NullPointerException if <code>input</code> or <code>comparator</code> argument is null, or if an element of the list is null
-     *             and the given comparator does not permit null arguments
-     */
-    public static <T> List<T> insertionSort(Comparator< ? super T> comparator, List<T> input) throws NullPointerException
+    public static <T extends Comparable<T>> void insertionSort(List<T> input, SortOrder order)
     {
-        checkParameters(comparator, input);
-
-        List<T> result = input.stream().collect(Collectors.toList());
-
-        for (int i = 1; i < result.size(); i++)
+        if (order.equals(SortOrder.ASCENDING))
         {
-            for (int k = i; k > 0 && comparator.compare(result.get(k), result.get(k - 1)) < 0; k--)
-            {
-                T tmp = result.get(k);
-                result.set(k, result.get(k - 1));
-                result.set(k - 1, tmp);
-            }
+            new InsertionSort().sortAscending(input);
         }
-
-        return result;
+        else
+        {
+            new InsertionSort().sortDescending(input);
+        }
     }
 
 
-    /**
-     * Although it is one of the elementary sorting algorithms with <code>O(n<sup>2</sup>)</code> worst-case time, insertion sort is the
-     * algorithm of choice either when the data is nearly sorted (because it is adaptive) or when the problem size is small (because it has
-     * low overhead). For these reasons, and because it is also stable, insertion sort is often used as the recursive base case (when the
-     * problem size is small) for higher overhead divide-and-conquer sorting algorithms, such as merge sort or quick sort.
-     *
-     * @param comparator the {@link Comparator} for comparing the elements of the <code>input</code> array
-     * @param input the input array to be sorted
-     * @return the sorted result array by using insertion sort
-     * @throws NullPointerException if <code>input</code> or <code>comparator</code> argument is null, or if an element of the array is null
-     *             and the given comparator does not permit null arguments
-     */
-    @SafeVarargs
-    public static <T> T[] insertionSort(Comparator< ? super T> comparator, T... input) throws NullPointerException
+    public static <T extends Comparable<T>> void insertionSort(T[] input, SortOrder order)
     {
-        checkParameters(comparator, input);
-
-        T[] result = Arrays.copyOf(input, input.length);
-
-        for (int i = 1; i < result.length; i++)
+        if (order.equals(SortOrder.ASCENDING))
         {
-            for (int k = i; k > 0 && comparator.compare(result[k], result[k - 1]) < 0; k--)
-            {
-                T tmp = result[k];
-                result[k] = result[k - 1];
-                result[k - 1] = tmp;
-            }
+            new InsertionSort().sortAscending(input);
         }
-
-        return result;
+        else
+        {
+            new InsertionSort().sortDescending(input);
+        }
     }
 
 
-    /**
-     * One might conclude that selection sort should never be used. It does not adapt to the data in any way, so its runtime is always
-     * quadratic. However, selection sort has the property of minimizing the number of swaps. In applications where the cost of swapping
-     * items is high, selection sort very well may be the algorithm of choice.
-     *
-     * @param comparator the {@link Comparator} for comparing the elements of the <code>input</code> List
-     * @param input the input {@link List} to be sorted
-     * @return the sorted result {@link List} by using selection sort
-     * @throws NullPointerException if <code>input</code> or <code>comparator</code> argument is null, or if an element of the list is null
-     *             and the given comparator does not permit null arguments
-     */
-    public static <T> List<T> selectionSort(Comparator< ? super T> comparator, List<T> input) throws NullPointerException
+    public static <T> void insertionSort(Comparator< ? super T> comparator, List<T> input, SortOrder order)
     {
-        checkParameters(comparator, input);
-
-        List<T> result = input.stream().collect(Collectors.toList());
-
-        if (result.size() > 1)
+        if (order.equals(SortOrder.ASCENDING))
         {
-            for (int i = 0; i < result.size(); i++)
+            new InsertionSort().sortAscending(comparator, input);
+        }
+        else
+        {
+            new InsertionSort().sortDescending(comparator, input);
+        }
+    }
+
+
+    public static <T> void insertionSort(Comparator< ? super T> comparator, T[] input, SortOrder order)
+    {
+        if (order.equals(SortOrder.ASCENDING))
+        {
+            new InsertionSort().sortAscending(comparator, input);
+        }
+        else
+        {
+            new InsertionSort().sortDescending(comparator, input);
+        }
+    }
+
+
+    public static <T> boolean isSorted(Comparator< ? super T> comparator, List<T> input, SortOrder order) throws NullPointerException
+    {
+        ParamValidator.checkParameters(comparator, input);
+
+        boolean isSorted = true;
+
+        if (order.equals(SortOrder.ASCENDING))
+        {
+            for (int i = 0; i < input.size() - 1; i++)
             {
-                int k = i;
-                for (int j = i + 1; j < result.size(); j++)
+                if (comparator.compare(input.get(i), input.get(i + 1)) > 0)
                 {
-                    if (comparator.compare(result.get(j), result.get(k)) < 0)
-                    {
-                        k = j;
-                    }
+                    isSorted = false;
+                    break;
                 }
-                T tmp = result.get(i);
-                result.set(i, result.get(k));
-                result.set(k, tmp);
             }
         }
-
-        return result;
-    }
-
-
-    /**
-     * One might conclude that selection sort should never be used. It does not adapt to the data in any way, so its runtime is always
-     * quadratic. However, selection sort has the property of minimizing the number of swaps. In applications where the cost of swapping
-     * items is high, selection sort very well may be the algorithm of choice.
-     *
-     * @param comparator the {@link Comparator} for comparing the elements of the <code>input</code> List
-     * @param input the input array to be sorted
-     * @return the sorted result array by using selection sort
-     * @throws NullPointerException if <code>input</code> or <code>comparator</code> argument is null, or if an element of the array is null
-     *             and the given comparator does not permit null arguments
-     */
-    @SafeVarargs
-    public static <T> T[] selectionSort(Comparator< ? super T> comparator, T... input) throws NullPointerException
-    {
-        checkParameters(comparator, input);
-
-        T[] result = Arrays.copyOf(input, input.length);
-
-        if (result.length > 1)
+        else
         {
-            for (int i = 0; i < result.length; i++)
+            for (int i = 0; i < input.size() - 1; i++)
             {
-                int k = i;
-                for (int j = i + 1; j < result.length; j++)
+                if (comparator.compare(input.get(i), input.get(i + 1)) < 0)
                 {
-                    if (comparator.compare(result[j], result[k]) < 0)
-                    {
-                        k = j;
-                    }
+                    isSorted = false;
+                    break;
                 }
-                T tmp = result[i];
-                result[i] = result[k];
-                result[k] = tmp;
             }
         }
 
-        return result;
+        return isSorted;
     }
 
 
-    private static <T> void checkParameters(Comparator< ? super T> comparator, List<T> input)
+    public static <T> boolean isSorted(Comparator< ? super T> comparator, T[] input, SortOrder order) throws NullPointerException
     {
-        Objects.requireNonNull(comparator, "comparator must not be null.");
-        Objects.requireNonNull(input, "input must not be null.");
+        ParamValidator.checkParameters(comparator, input);
+
+        boolean isSorted = true;
+
+        if (order.equals(SortOrder.ASCENDING))
+        {
+            for (int i = 0; i < input.length - 1; i++)
+            {
+                if (comparator.compare(input[i], input[i + 1]) > 0)
+                {
+                    isSorted = false;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < input.length - 1; i++)
+            {
+                if (comparator.compare(input[i], input[i + 1]) < 0)
+                {
+                    isSorted = false;
+                    break;
+                }
+            }
+        }
+
+        return isSorted;
     }
 
 
-    @SafeVarargs
-    private static <T> void checkParameters(Comparator< ? super T> comparator, T... input)
+    public static <T extends Comparable<T>> boolean isSorted(List<T> input, SortOrder order) throws NullPointerException
     {
-        Objects.requireNonNull(comparator, "comparator must not be null.");
-        Objects.requireNonNull(input, "input must not be null.");
+        ParamValidator.checkParameter(input);
+
+        boolean isSorted = true;
+
+        if (order.equals(SortOrder.ASCENDING))
+        {
+            for (int i = 0; i < input.size() - 1; i++)
+            {
+                if (input.get(i).compareTo(input.get(i + 1)) > 0)
+                {
+                    isSorted = false;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < input.size() - 1; i++)
+            {
+                if (input.get(i).compareTo(input.get(i + 1)) < 0)
+                {
+                    isSorted = false;
+                    break;
+                }
+            }
+        }
+
+        return isSorted;
+    }
+
+
+    public static <T extends Comparable<T>> boolean isSorted(T[] input, SortOrder order) throws NullPointerException
+    {
+        ParamValidator.checkParameter(input);
+
+        boolean isSorted = true;
+
+        if (order.equals(SortOrder.ASCENDING))
+        {
+            for (int i = 0; i < input.length - 1; i++)
+            {
+                if (input[i].compareTo(input[i + 1]) > 0)
+                {
+                    isSorted = false;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < input.length - 1; i++)
+            {
+                if (input[i].compareTo(input[i + 1]) < 0)
+                {
+                    isSorted = false;
+                    break;
+                }
+            }
+        }
+
+        return isSorted;
+    }
+
+    public enum SortOrder
+    {
+        ASCENDING, DESCENDING
     }
 }
