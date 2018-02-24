@@ -219,8 +219,8 @@ public class InsertionSortTest extends AbstractSortingTest
     @Override
     public void sortArrayAscAlreadySorted()
     {
-        Integer[] input = new Integer[]{new Integer(-3), new Integer(-2), new Integer(-1), new Integer(0), new Integer(1), new Integer(2), new Integer(3)};
-        Integer[] expected = new Integer[]{new Integer(-3), new Integer(-2), new Integer(-1), new Integer(0), new Integer(1), new Integer(2), new Integer(3)};
+        Integer[] input = new Integer[]{Integer.valueOf(-3), Integer.valueOf(-2), Integer.valueOf(-1), Integer.valueOf(0), Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3)};
+        Integer[] expected = new Integer[]{Integer.valueOf(-3), Integer.valueOf(-2), Integer.valueOf(-1), Integer.valueOf(0), Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3)};
 
         SortingUtils.insertionSort(integerComparator, input, SortOrder.ASCENDING);
 
@@ -242,8 +242,8 @@ public class InsertionSortTest extends AbstractSortingTest
     @Override
     public void sortArrayAscReverse()
     {
-        Integer[] input = new Integer[]{new Integer(3), new Integer(2), new Integer(1), new Integer(0), new Integer(-1), new Integer(-2), new Integer(-3)};
-        Integer[] expected = new Integer[]{new Integer(-3), new Integer(-2), new Integer(-1), new Integer(0), new Integer(1), new Integer(2), new Integer(3)};
+        Integer[] input = new Integer[]{Integer.valueOf(3), Integer.valueOf(2), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(-1), Integer.valueOf(-2), Integer.valueOf(-3)};
+        Integer[] expected = new Integer[]{Integer.valueOf(-3), Integer.valueOf(-2), Integer.valueOf(-1), Integer.valueOf(0), Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3)};
 
         SortingUtils.insertionSort(integerComparator, input, SortOrder.ASCENDING);
 
@@ -282,8 +282,8 @@ public class InsertionSortTest extends AbstractSortingTest
     @Override
     public void sortArrayAscFewUniqueReverse()
     {
-        Integer[] input = new Integer[]{new Integer(3), new Integer(1), new Integer(1), new Integer(0), new Integer(-2), new Integer(-2), new Integer(-3)};
-        Integer[] expected = new Integer[]{new Integer(-3), new Integer(-2), new Integer(-2), new Integer(0), new Integer(1), new Integer(1), new Integer(3)};
+        Integer[] input = new Integer[]{Integer.valueOf(3), Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(-2), Integer.valueOf(-2), Integer.valueOf(-3)};
+        Integer[] expected = new Integer[]{Integer.valueOf(-3), Integer.valueOf(-2), Integer.valueOf(-2), Integer.valueOf(0), Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(3)};
 
         SortingUtils.insertionSort(integerComparator, input, SortOrder.ASCENDING);
 
@@ -304,8 +304,8 @@ public class InsertionSortTest extends AbstractSortingTest
     @Override
     public void sortArrayAscAlreadySortedFewUnique()
     {
-        Integer[] input = new Integer[]{new Integer(-3), new Integer(-2), new Integer(-2), new Integer(0), new Integer(1), new Integer(1), new Integer(3)};
-        Integer[] expected = new Integer[]{new Integer(-3), new Integer(-2), new Integer(-2), new Integer(0), new Integer(1), new Integer(1), new Integer(3)};
+        Integer[] input = new Integer[]{Integer.valueOf(-3), Integer.valueOf(-2), Integer.valueOf(-2), Integer.valueOf(0), Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(3)};
+        Integer[] expected = new Integer[]{Integer.valueOf(-3), Integer.valueOf(-2), Integer.valueOf(-2), Integer.valueOf(0), Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(3)};
 
         SortingUtils.insertionSort(integerComparator, input, SortOrder.ASCENDING);
 
@@ -327,12 +327,12 @@ public class InsertionSortTest extends AbstractSortingTest
     @Override
     public void sortArrayAscWithOneElement()
     {
-        Integer[] input = new Integer[]{new Integer(3)};
+        Integer[] input = new Integer[]{Integer.valueOf(3)};
 
         SortingUtils.insertionSort(integerComparator, input, SortOrder.ASCENDING);
 
         assertEquals(1, input.length);
-        assertEquals(new Integer(3), input[0]);
+        assertEquals(Integer.valueOf(3), input[0]);
     }
 
 
@@ -349,8 +349,8 @@ public class InsertionSortTest extends AbstractSortingTest
     @Override
     public void sortArrayAscComparatorPermitsNullElements()
     {
-        Integer[] input = new Integer[]{new Integer(3), new Integer(2), new Integer(1), null, new Integer(-1), new Integer(-2), null};
-        Integer[] expected = new Integer[]{null, null, new Integer(-2), new Integer(-1), new Integer(1), new Integer(2), new Integer(3)};
+        Integer[] input = new Integer[]{Integer.valueOf(3), Integer.valueOf(2), Integer.valueOf(1), null, Integer.valueOf(-1), Integer.valueOf(-2), null};
+        Integer[] expected = new Integer[]{null, null, Integer.valueOf(-2), Integer.valueOf(-1), Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3)};
 
         SortingUtils.insertionSort(integerComparatorPermittingNull, input, SortOrder.ASCENDING);
 
@@ -371,7 +371,7 @@ public class InsertionSortTest extends AbstractSortingTest
     @Override
     public void sortArrayAscComparatorDoesntPermitNullElementsFails()
     {
-        Integer[] input = new Integer[]{new Integer(3), new Integer(2), new Integer(1), null, new Integer(-1), new Integer(-2), new Integer(-3)};
+        Integer[] input = new Integer[]{Integer.valueOf(3), Integer.valueOf(2), Integer.valueOf(1), null, Integer.valueOf(-1), Integer.valueOf(-2), Integer.valueOf(-3)};
 
         exception.expect(NullPointerException.class);
 
@@ -392,7 +392,7 @@ public class InsertionSortTest extends AbstractSortingTest
     @Override
     public void sortArrayAscWithNullComparatorFails()
     {
-        Integer[] input = new Integer[]{new Integer(3), new Integer(2), new Integer(1), new Integer(0), new Integer(-1), new Integer(-2), new Integer(-3)};
+        Integer[] input = new Integer[]{Integer.valueOf(3), Integer.valueOf(2), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(-1), Integer.valueOf(-2), Integer.valueOf(-3)};
 
         exception.expect(NullPointerException.class);
         exception.expectMessage(Matchers.equalTo("comparator must not be null."));

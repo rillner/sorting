@@ -153,13 +153,13 @@ public abstract class AbstractSortingTest
 
     private static List<Integer> create10000RdmIntsList()
     {
-        return new Random().ints(10000, new Integer(-5000), new Integer(5000)).boxed().collect(Collectors.toList());
+        return new Random().ints(10000, Integer.valueOf(-5000), Integer.valueOf(5000)).boxed().collect(Collectors.toList());
     }
 
 
     private static Integer[] create10000RdmIntsArray()
     {
-        return new Random().ints(10000, new Integer(-5000), new Integer(5000)).boxed().toArray(size -> new Integer[size]);
+        return new Random().ints(10000, Integer.valueOf(-5000), Integer.valueOf(5000)).boxed().toArray(size -> new Integer[size]);
     }
 
 
